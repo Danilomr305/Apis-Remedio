@@ -18,7 +18,9 @@ public class RemedioController {
 	
 	@Autowired
 	private RemedioRepository repository;
-	
+
+
+	// Esse comando serve para cadastrar um novo remedio
 	@PostMapping
     @Transactional
 	public ResponseEntity<DadosDetalhamentoRemedio> cadastrar(@RequestBody @Valid DadosCadastroRemedio dados, UriComponentsBuilder uriBuilder) {
@@ -30,6 +32,7 @@ public class RemedioController {
 		return  ResponseEntity.created(uri).body(new DadosDetalhamentoRemedio(remedio));
 	}
 
+	// Esse comando serve para retorna a lista de todos os remedios cadastrados e que estao ativados
 	@GetMapping
 	public ResponseEntity <List<DadosListagemRemedio>> list() {
 		var lista = repository.findAllByAtivoTrue().stream().map(DadosListagemRemedio::new).toList();
@@ -37,6 +40,7 @@ public class RemedioController {
 		return  ResponseEntity.ok(lista);
 	}
 
+	//Esse comando serve para atualizar dados de algum remedio que foi cadastrado de maneira errada
 	@PutMapping
 	@Transactional
 	public ResponseEntity<DadosDetalhamentoRemedio> atualizar(@RequestBody @Valid DadosAtualizarRemedio dados) {
@@ -46,6 +50,7 @@ public class RemedioController {
 		return ResponseEntity.ok(new DadosDetalhamentoRemedio(remedio));
 	}
 
+	// Esse comando serve para excluir o remedio definitivamente do sistema
 	@DeleteMapping("/{id}")
 	@Transactional
 	public ResponseEntity<Void> excluir(@PathVariable Long id) {
@@ -54,6 +59,7 @@ public class RemedioController {
 		return ResponseEntity.noContent().build();
 	}
 
+	// Esse comando serve para deixa o remedio inativo "quando ele acaba e nao que deixa ele em amostrar"
 	@DeleteMapping("inativar/{id}")
 	@Transactional
 	public ResponseEntity<Void> inativar(@PathVariable Long id) {
@@ -63,7 +69,7 @@ public class RemedioController {
 		return ResponseEntity.noContent().build();
 	}
 
-
+	// Esse comando serve para reativar o remedio que acabou e chegou mais para o estoque
     //Esse comando serve para reativer remedios que foram arquivado
 	@PutMapping("reativar/{id}")
 	@Transactional
@@ -72,6 +78,15 @@ public class RemedioController {
 		remedio.reativar();
 
 		return ResponseEntity.noContent().build();
+	}
+
+	// Esse comando serve para trazer todos os dados do remedio especifico detalhadamente
+	@GetMapping("/{id}")
+	@Transactional
+	public ResponseEntity<DadosDetalhamentoRemedio> detalhar(@PathVariable Long id) {
+		var remedio = repository.getReferenceById(id);
+
+		return ResponseEntity.ok(new DadosDetalhamentoRemedio(remedio));
 	}
 
 }
