@@ -32,7 +32,7 @@ public class RemedioController {
 		return  ResponseEntity.created(uri).body(new DadosDetalhamentoRemedio(remedio));
 	}
 
-	// Esse comando serve para retorna a lista de todos os remedios cadastrados e que estao ativados
+	// Esse comando serve para retorno a lista de todos os remedios cadastrados e que estao ativados
 	@GetMapping
 	public ResponseEntity <List<DadosListagemRemedio>> list() {
 		var lista = repository.findAllByAtivoTrue().stream().map(DadosListagemRemedio::new).toList();
