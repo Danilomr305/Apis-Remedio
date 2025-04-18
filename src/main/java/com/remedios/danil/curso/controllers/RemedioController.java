@@ -63,6 +63,8 @@ public class RemedioController {
 		return ResponseEntity.noContent().build();
 	}
 
+
+    //Esse comando serve para reativer remedios que foram arquivado
 	@PutMapping("reativar/{id}")
 	@Transactional
 	public ResponseEntity<Void> Reativar(@PathVariable Long id) {
