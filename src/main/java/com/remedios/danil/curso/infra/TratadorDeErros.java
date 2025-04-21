@@ -1,4 +1,4 @@
-package com.remedios.danil.curso.controllers.infra;
+package com.remedios.danil.curso.infra;
 
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.ResponseEntity;
