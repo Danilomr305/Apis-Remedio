@@ -2,6 +2,7 @@ package com.remedios.danil.curso.controllers;
 
 import com.remedios.danil.curso.Usuarios.DadosAutenticacao;
 import com.remedios.danil.curso.Usuarios.Usuario;
+import com.remedios.danil.curso.infra.DadosTokenJWT;
 import com.remedios.danil.curso.infra.TokenService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,10 @@ public class AutenticacaoController {
         var token= new UsernamePasswordAuthenticationToken(dados.login(), dados.senha());
         var autenticacao = manager.authenticate(token);
 
-        return  ResponseEntity.ok(tokenService.gerarToken((Usuario) autenticacao.getPrincipal()));
+        var tokenJWT = tokenService.gerarToken((Usuario) autenticacao.getPrincipal());
+
+        return  ResponseEntity.ok(new DadosTokenJWT(tokenJWT));
+
     }
+
 }
